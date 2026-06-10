@@ -1,5 +1,5 @@
 //step1:loading dependencies
-package com.xworkz.transDetail.PaymentStatus;
+package com.xworkz.transDetail.paymentStatus;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
