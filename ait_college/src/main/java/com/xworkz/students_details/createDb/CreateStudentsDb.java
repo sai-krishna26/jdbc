@@ -1,4 +1,4 @@
-package com.xworkz.students_details;
+package com.xworkz.students_details.createDb;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

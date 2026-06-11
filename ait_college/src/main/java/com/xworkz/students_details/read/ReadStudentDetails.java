@@ -1,6 +1,4 @@
-package com.xworkz.students_details;
-
-import com.mysql.cj.jdbc.Driver;
+package com.xworkz.students_details.read;
 
 import java.sql.*;
 import java.util.Objects;

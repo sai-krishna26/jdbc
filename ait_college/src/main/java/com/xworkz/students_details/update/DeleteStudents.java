@@ -1,4 +1,4 @@
-package com.xworkz.students_details;
+package com.xworkz.students_details.update;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,7 +6,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Objects;
 
-public class UpdateStudentDetails {
+public class DeleteStudents {
         public static void main(String[] args) {
             try {
                 Class.forName("com.mysql.cj.jdbc.Driver");
@@ -17,7 +17,7 @@ public class UpdateStudentDetails {
             String url = "jdbc:mysql://127.0.0.1:3306/college_db";
             String user = "root";
             String password = "root";
-            String sqlQuery = "UPDATE students_info SET result='pass' WHERE student_name='Bharath'";
+            String sqlQuery = "DELETE FROM students_info WHERE student_name IN ('Bharath','Saikrishna')";
 
             Connection connect = null;
             Statement statement = null;
@@ -28,7 +28,7 @@ public class UpdateStudentDetails {
                 statement = connect.createStatement();
 
                 int check=statement.executeUpdate(sqlQuery);
-                System.out.println("Student data updated? :"+check);
+                System.out.println("Student data deleted? :"+check);
 
             } catch (SQLException e) {
                 throw new RuntimeException(e);
