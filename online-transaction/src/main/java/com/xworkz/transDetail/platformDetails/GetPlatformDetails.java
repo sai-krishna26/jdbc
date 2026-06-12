@@ -20,7 +20,7 @@ public class GetPlatformDetails {
         try {
            connection=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/payment_db","root","root");
            statement=connection.createStatement();
-           int check=statement.executeUpdate("update patient_history set amount=5000.00 where patient_name='abhishek'");
+           int check=statement.executeUpdate("INSERT INTO patient_history(patient_name, admition_date, amount, payment_status) VALUES('traabhi','2024-6-5',1000.98,true)");
             System.out.println("result of update: "+check);
         } catch (SQLException e) {
             throw new RuntimeException(e);
