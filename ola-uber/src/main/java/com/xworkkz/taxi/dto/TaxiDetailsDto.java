@@ -8,6 +8,6 @@ import lombok.Setter;
 public class TaxiDetailsDto {
     private String driverName;
     private String carName;
-    private String License;
+    private String license;
     private int passengerCount;
 }

@@ -37,6 +37,8 @@ public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
                 System.out.println("inserted placeholders!... wait for original details!");
                 boolean check = prepareStatement.execute();
                 save = check;
+                System.out.println("inserted?: "+save+" (bcz of .execute)");
+                System.out.println("details are successfully inserted");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             } finally {
@@ -51,7 +53,7 @@ public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
         return save;
     }
 
-    public int updateDetails(WaterBottleDetailsDto waterBottleDetailsDto)
+    public int updateDetails(String name, Double cost)
     {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -63,11 +65,11 @@ public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
         try {
             connect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Kingfisher_db", "root", "root");
             PreparedStatement preparedStatement = connect.prepareStatement("update water_bottle set cost=? where name=?");
-            preparedStatement.setDouble(1, waterBottleDetailsDto.getCost());
-            preparedStatement.setString(2, waterBottleDetailsDto.getName());
+            preparedStatement.setDouble(1,cost);
+            preparedStatement.setString(2, name);
             System.out.println("searching to update!... wait for result!");
-            System.out.println("Name = " + waterBottleDetailsDto.getName());
-            System.out.println("Cost = " + waterBottleDetailsDto.getCost());
+            System.out.println("Name = " + name);
+            System.out.println("Cost = " + cost);
             result = preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -84,8 +86,7 @@ public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
         return result;
     }
 
-
-    public int deleteDetails(WaterBottleDetailsDto waterBottleDetailsDto)
+    public int deleteDetails(String name)
     {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -97,9 +98,9 @@ public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
         try {
             connect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Kingfisher_db", "root", "root");
             PreparedStatement preparedStatement = connect.prepareStatement("DELETE FROM water_bottle WHERE name=?");
-            preparedStatement.setString(1, waterBottleDetailsDto.getName());
+            preparedStatement.setString(1, name);
             System.out.println("searching to delete!... wait for result!");
-            System.out.println("Name = " + waterBottleDetailsDto.getName());
+            System.out.println("Name = " + name);
             result = preparedStatement.executeUpdate();
 
         } catch (SQLException e) {
@@ -116,7 +117,7 @@ public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
         return result;
     }
 
-    public  void showDetails(WaterBottleDetailsDto waterBottleDetailsDto)
+    public  void showDetails()
     {
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -128,14 +129,14 @@ public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
         try
         {
             connect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Kingfisher_db", "root", "root");
-            PreparedStatement preparedStatement = connect.prepareStatement("SELECT * FROM water_bottle WHERE name=?");
-            preparedStatement.setString(1, waterBottleDetailsDto.getName());
+            PreparedStatement preparedStatement = connect.prepareStatement("SELECT * FROM water_bottle");
+            //preparedStatement.setString(1, waterBottleDetailsDto.getName());
             System.out.println("collecting details!... wait for result!");
-            System.out.println("Name = " + waterBottleDetailsDto.getName());
+            //System.out.println("Name = " + waterBottleDetailsDto.getName());
             set = preparedStatement.executeQuery();
 
             while (set.next()) {
-                System.out.println("data is ready...");
+                System.out.println("...");
                 System.out.println(set.getString("name"));
                 System.out.println(set.getFloat("size"));
                 System.out.println(set.getDouble("cost"));
