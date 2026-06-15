@@ -124,8 +124,7 @@ public class GuestDetailsDaoImpl implements GuestDetailsDao {
         try
         {
             connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/snboys_db", "root", "root");
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from guest_info where aadhaarId=?");
-            preparedStatement.setLong(1, guestDetailsDto.getAadhaarId());
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from guest_info");
             rs= preparedStatement.executeQuery();
             while (rs.next())
             {

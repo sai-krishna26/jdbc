@@ -126,7 +126,7 @@ public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
         try
         {
             connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Budgerigar_db", "root", "root");
-            PreparedStatement preparedStatement = connection.prepareStatement("select * from homes_info where name=?");
+            PreparedStatement preparedStatement = connection.prepareStatement("select * from homes_info");
             preparedStatement.setString(1, name);
             set = preparedStatement.executeQuery();
             while (set.next())

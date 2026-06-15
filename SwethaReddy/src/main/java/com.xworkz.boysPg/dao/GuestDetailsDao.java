@@ -4,7 +4,7 @@ import com.xworkz.boysPg.dto.GuestDetailsDto;
 
 public interface GuestDetailsDao {
     public boolean insertDetails(GuestDetailsDto guestDetailsDto);
-    public int updateDetails(GuestDetailsDto guestDetailsDto);
-    public int deleteDetails(GuestDetailsDto guestDetailsDto);
-    public void readDetails(GuestDetailsDto guestDetailsDto);
+    public int updateDetails(int days_count,String guest_name);
+    public int deleteDetails(String guest_name);
+    public void readDetails();
 }
