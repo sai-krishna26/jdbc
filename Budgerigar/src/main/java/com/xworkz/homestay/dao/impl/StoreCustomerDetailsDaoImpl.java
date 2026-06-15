@@ -32,6 +32,7 @@ public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
             System.out.println("name: " + storeCustomerDetailsDto.getName() + "\ngender: " + storeCustomerDetailsDto.getGender() + "\nage: " + storeCustomerDetailsDto.getAge() + "\ngroup_count: " + storeCustomerDetailsDto.getGroup_count() + "\ncheckIn date: " + storeCustomerDetailsDto.getCheckInDate());
             check = preparedStatement.execute();
             System.out.println("inserted?: " + check);
+            System.out.println("data inserted successfully");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -46,7 +47,7 @@ public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
         return false;
     }
 
-    public int update(StoreCustomerDetailsDto storeCustomerDetailsDto) {
+    public int update(String name, int group_count) {
         System.out.println("----------update------------");
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -57,11 +58,12 @@ public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
         try {
             connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Budgerigar_db", "root", "root");
             PreparedStatement preparedStatement = connection.prepareStatement("update homes_info set group_count=? where name=?");
-            preparedStatement.setString(2, storeCustomerDetailsDto.getName());
-            preparedStatement.setInt(1, storeCustomerDetailsDto.getGroup_count());
-            System.out.println("name: " + storeCustomerDetailsDto.getName() + "\ngroup_count: " + storeCustomerDetailsDto.getGroup_count());
+            preparedStatement.setString(2, name);
+            preparedStatement.setInt(1,group_count);
+            System.out.println("name: " + name + "\ngroup_count: " +group_count);
             result = preparedStatement.executeUpdate();
             System.out.println(result + " row(s) updated");
+            System.out.println("data updated successfully");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -77,7 +79,7 @@ public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
         return result;
     }
 
-    public int delete(StoreCustomerDetailsDto storeCustomerDetailsDto) {
+    public int delete(int age) {
         System.out.println("----------delete------------");
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -88,10 +90,11 @@ public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
         try {
             connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Budgerigar_db", "root", "root");
             PreparedStatement preparedStatement = connection.prepareStatement("delete from homes_info where age>?");
-            preparedStatement.setInt(1, storeCustomerDetailsDto.getAge());
-            System.out.println("Age: " + storeCustomerDetailsDto.getAge());
+            preparedStatement.setInt(1,age);
+            System.out.println("Age: " +age);
             result = preparedStatement.executeUpdate();
             System.out.println(result + " row(s) deleted");
+            System.out.println("data successfully deleted");
         } catch (SQLException e) {
             throw new RuntimeException(e);
         } finally {
@@ -107,7 +110,7 @@ public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
         return result;
     }
 
-    public void read(StoreCustomerDetailsDto storeCustomerDetailsDto)
+    public void read(String name)
     {
         System.out.println("----------read-----------");
         try
@@ -124,7 +127,7 @@ public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
         {
             connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Budgerigar_db", "root", "root");
             PreparedStatement preparedStatement = connection.prepareStatement("select * from homes_info where name=?");
-            preparedStatement.setString(1, storeCustomerDetailsDto.getName());
+            preparedStatement.setString(1, name);
             set = preparedStatement.executeQuery();
             while (set.next())
             {
