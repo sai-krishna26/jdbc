@@ -6,5 +6,5 @@ public interface StoreCustomerDetailsService {
     public boolean validateStore(StoreCustomerDetailsDto storeCustomerDetailsDto);
     public int validateUpdate(String name, int group_count);
     public int validateDelete(int age);
-    public void validateRead(String name);
+    public void validateRead();
 }

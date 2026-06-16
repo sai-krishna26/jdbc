@@ -12,7 +12,7 @@ public class StoreCustomerDetailsServiceImpl implements StoreCustomerDetailsServ
     StoreCustomerDetailsDao storeCustomerDetailsDao;
     @Override
     public boolean validateStore(StoreCustomerDetailsDto storeCustomerDetailsDto) {
-        if(Objects.nonNull(storeCustomerDetailsDao) && storeCustomerDetailsDto.getName()!=null && storeCustomerDetailsDto.getGender()!=null && storeCustomerDetailsDto.getAge()>18 && storeCustomerDetailsDto.getGroup_count()>0 && storeCustomerDetailsDto.getCheckInDate()!=null)
+        if(Objects.nonNull(storeCustomerDetailsDao) && storeCustomerDetailsDto.getName()!=null && storeCustomerDetailsDto.getGender()!=null && storeCustomerDetailsDto.getAge()>18 && storeCustomerDetailsDto.getGroup_count()>0 && storeCustomerDetailsDto.getDate()!=null)
         {
             return this.storeCustomerDetailsDao.store(storeCustomerDetailsDto);
         }
@@ -50,10 +50,10 @@ public class StoreCustomerDetailsServiceImpl implements StoreCustomerDetailsServ
     }
 
     @Override
-    public void validateRead(String name) {
-        if(Objects.nonNull(storeCustomerDetailsDao) && name!=null)
+    public void validateRead() {
+        if(Objects.nonNull(storeCustomerDetailsDao))
         {
-            this.storeCustomerDetailsDao.read(name);
+            this.storeCustomerDetailsDao.read();
         }
         else
         {

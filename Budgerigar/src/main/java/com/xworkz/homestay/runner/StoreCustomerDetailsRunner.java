@@ -7,6 +7,7 @@ import com.xworkz.homestay.dao.impl.StoreCustomerDetailsDaoImpl;
 import com.xworkz.homestay.dto.StoreCustomerDetailsDto;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public class StoreCustomerDetailsRunner {
     public static void main(String[] args) {
@@ -34,9 +35,15 @@ public class StoreCustomerDetailsRunner {
 //        storeCustomerDetailsService.validateDelete(storeCustomerDetailsDto2.getAge());
 
         //read
-        StoreCustomerDetailsDto storeCustomerDetailsDto3=new StoreCustomerDetailsDto();
-        storeCustomerDetailsDto3.setName(null);
-        storeCustomerDetailsService.validateRead(storeCustomerDetailsDto3.getName());
+        //StoreCustomerDetailsDto storeCustomerDetailsDto3=new StoreCustomerDetailsDto();
+        List<StoreCustomerDetailsDto> storeCustomerDetailsDtos=storeCustomerDetailsDao.read();
+        System.out.println("----------read-----------");
+        for(StoreCustomerDetailsDto ref:storeCustomerDetailsDtos )
+        {
+            System.out.println(ref);
+        }
+        storeCustomerDetailsService.validateRead();
+        System.out.println("-------------------------------------------------------------");
     }
 
 }

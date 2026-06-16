@@ -5,6 +5,8 @@ import com.xworkz.homestay.dto.StoreCustomerDetailsDto;
 
 import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
@@ -28,8 +30,8 @@ public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
             preparedStatement.setString(2, storeCustomerDetailsDto.getGender());
             preparedStatement.setInt(3, storeCustomerDetailsDto.getAge());
             preparedStatement.setInt(4, storeCustomerDetailsDto.getGroup_count());
-            preparedStatement.setDate(5, Date.valueOf(storeCustomerDetailsDto.getCheckInDate()));
-            System.out.println("name: " + storeCustomerDetailsDto.getName() + "\ngender: " + storeCustomerDetailsDto.getGender() + "\nage: " + storeCustomerDetailsDto.getAge() + "\ngroup_count: " + storeCustomerDetailsDto.getGroup_count() + "\ncheckIn date: " + storeCustomerDetailsDto.getCheckInDate());
+            preparedStatement.setDate(5, Date.valueOf(storeCustomerDetailsDto.getDate()));
+            System.out.println("name: " + storeCustomerDetailsDto.getName() + "\ngender: " + storeCustomerDetailsDto.getGender() + "\nage: " + storeCustomerDetailsDto.getAge() + "\ngroup_count: " + storeCustomerDetailsDto.getGroup_count() + "\ncheckIn date: " + storeCustomerDetailsDto.getDate());
             check = preparedStatement.execute();
             System.out.println("inserted?: " + check);
             System.out.println("data inserted successfully");
@@ -110,9 +112,10 @@ public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
         return result;
     }
 
-    public void read(String name)
+    @Override
+    public List<StoreCustomerDetailsDto> read()
     {
-        System.out.println("----------read-----------");
+            List<StoreCustomerDetailsDto> ref=new ArrayList<>();
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -127,16 +130,17 @@ public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
         {
             connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Budgerigar_db", "root", "root");
             PreparedStatement preparedStatement = connection.prepareStatement("select * from homes_info");
-            preparedStatement.setString(1, name);
+//            preparedStatement.setString(1, name);
             set = preparedStatement.executeQuery();
             while (set.next())
             {
-                System.out.println(set.getString("name"));
-                System.out.println(set.getString("gender"));
-                System.out.println(set.getInt("age"));
-                System.out.println(set.getInt("group_count"));
-                System.out.println(set.getDate("date"));
-                System.out.println("-----------------------------------");
+                StoreCustomerDetailsDto storeCustomerDetailsDto=new StoreCustomerDetailsDto();
+                storeCustomerDetailsDto.setName(set.getString("name"));
+                storeCustomerDetailsDto.setGender(set.getString("gender"));
+                storeCustomerDetailsDto.setAge(set.getInt("age"));
+                storeCustomerDetailsDto.setGroup_count(set.getInt("group_count"));
+                storeCustomerDetailsDto.setDate(set.getDate("date").toLocalDate());
+                ref.add(storeCustomerDetailsDto);
             }
         }
         catch (SQLException e) {
@@ -160,5 +164,6 @@ public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
                 }
             }
         }
+        return ref;
     }
 }
