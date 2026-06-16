@@ -52,7 +52,7 @@ public class WaterBottleDetailsServiceImpl implements WaterBottleDetailsService 
     public void validatingShowDetails() {
         if(Objects.nonNull(waterBottleDetailsDao))
         {
-            this.waterBottleDetailsDao.showDetails();
+            this.waterBottleDetailsDao.readDetails();
         }
         else
         {

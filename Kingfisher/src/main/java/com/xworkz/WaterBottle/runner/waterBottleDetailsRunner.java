@@ -8,12 +8,13 @@ import com.xworkz.WaterBottle.service.impl.WaterBottleDetailsServiceImpl;
 
 import java.sql.ResultSet;
 import java.sql.SQLOutput;
+import java.util.List;
 
 public class waterBottleDetailsRunner {
     public static void main(String[] args) {
-       // System.out.println("-------------------insert----------------------");
+//       System.out.println("-------------------insert----------------------");
         WaterBottleDetailsDao waterBottleDetailsDao=new WaterBottleDetailsDaoImpl();
-        WaterBottleDetailsService waterBottleDetailsService=new WaterBottleDetailsServiceImpl(waterBottleDetailsDao);
+//        WaterBottleDetailsService waterBottleDetailsService=new WaterBottleDetailsServiceImpl(waterBottleDetailsDao);
 //        WaterBottleDetailsDto waterBottleDetailsDto=new WaterBottleDetailsDto();
 //        waterBottleDetailsDto.setName("yamuna");
 //        waterBottleDetailsDto.setSize(3.0f);
@@ -38,8 +39,11 @@ public class waterBottleDetailsRunner {
 //        System.out.println("rows deleted successfully");
 
         System.out.println("------------read-----------------");
-        WaterBottleDetailsDto waterBottleDetailsDto3=new WaterBottleDetailsDto();
-        //waterBottleDetailsDto3.setName("kf_blackwater");
-        waterBottleDetailsService.validatingShowDetails();
+        List<WaterBottleDetailsDto> waterBottleDetailsDtos=waterBottleDetailsDao.readDetails();
+        for (WaterBottleDetailsDto ref:waterBottleDetailsDtos)
+        {
+            System.out.println(ref);
+            System.out.println(".............................................................................");
+        }
     }
 }

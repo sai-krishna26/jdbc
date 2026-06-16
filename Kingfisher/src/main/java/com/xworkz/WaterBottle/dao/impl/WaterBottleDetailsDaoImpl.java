@@ -6,6 +6,9 @@ import com.xworkz.WaterBottle.dto.WaterBottleDetailsDto;
 
 import javax.jws.Oneway;
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 
 public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
@@ -117,8 +120,10 @@ public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
         return result;
     }
 
-    public  void showDetails()
-    {
+    @Override
+    public List<WaterBottleDetailsDto> readDetails() {
+        List<WaterBottleDetailsDto> ref=new ArrayList();
+
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
         } catch (ClassNotFoundException e) {
@@ -136,19 +141,19 @@ public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
             set = preparedStatement.executeQuery();
 
             while (set.next()) {
-                System.out.println("...");
-                System.out.println(set.getString("name"));
-                System.out.println(set.getFloat("size"));
-                System.out.println(set.getDouble("cost"));
-                System.out.println(set.getString("validity"));
-                System.out.println(set.getBoolean("is_certified"));
-                System.out.println("-----------------------------------");
+                WaterBottleDetailsDto waterBottleDetailsDto=new WaterBottleDetailsDto();
+                waterBottleDetailsDto.setName(set.getString("name"));
+                waterBottleDetailsDto.setSize(set.getFloat("size"));
+                waterBottleDetailsDto.setCost(set.getDouble("cost"));
+                waterBottleDetailsDto.setValidity(set.getString("validity"));
+                waterBottleDetailsDto.setCertified(set.getBoolean("is_certified"));
+                ref.add(waterBottleDetailsDto);
             }
         }
-       catch(SQLException e)
-       {
-           throw new RuntimeException(e);
-       }
+        catch(SQLException e)
+        {
+            throw new RuntimeException(e);
+        }
         finally
         {
             if (Objects.nonNull(connect))
@@ -171,5 +176,6 @@ public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
                 throw new RuntimeException(e);
             }
         }
+        return ref;
     }
 }
