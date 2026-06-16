@@ -4,6 +4,8 @@ import com.xworkz.boysPg.dao.GuestDetailsDao;
 import com.xworkz.boysPg.dto.GuestDetailsDto;
 
 import java.sql.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class GuestDetailsDaoImpl implements GuestDetailsDao {
@@ -45,7 +47,7 @@ public class GuestDetailsDaoImpl implements GuestDetailsDao {
     }
 
     @Override
-    public int updateDetails(GuestDetailsDto guestDetailsDto) {
+    public int updateDetails(int days_count,String guest_name) {
         System.out.println("----------update------------");
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -56,9 +58,9 @@ public class GuestDetailsDaoImpl implements GuestDetailsDao {
         try {
             connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/snboys_db","root","root");
             PreparedStatement preparedStatement = connection.prepareStatement("update guest_info set days_count=? where guest_name=?");
-            preparedStatement.setInt(1, guestDetailsDto.getDays_count());
-            preparedStatement.setString(2, guestDetailsDto.getGuest_name());
-            System.out.println("name: " + guestDetailsDto.getGuest_name() + "\ngroup_count: " + guestDetailsDto.getDays_count());
+            preparedStatement.setInt(1,days_count);
+            preparedStatement.setString(2,guest_name);
+            System.out.println("name: " + guest_name + "\ngroup_count: " +days_count);
             result = preparedStatement.executeUpdate();
             System.out.println(result + " row(s) updated");
         } catch (SQLException e) {
@@ -72,13 +74,11 @@ public class GuestDetailsDaoImpl implements GuestDetailsDao {
                 }
             }
         }
-
-
         return result;
     }
 
     @Override
-    public int deleteDetails(GuestDetailsDto guestDetailsDto) {
+    public int deleteDetails(String guest_name) {
         System.out.println("----------delete------------");
         try {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -89,8 +89,8 @@ public class GuestDetailsDaoImpl implements GuestDetailsDao {
         try {
             connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/snboys_db", "root", "root");
             PreparedStatement preparedStatement = connection.prepareStatement("delete from guest_info where guest_name=?");
-            preparedStatement.setString(1, guestDetailsDto.getGuest_name());
-            System.out.println("guest_name: " + guestDetailsDto.getGuest_name());
+            preparedStatement.setString(1,guest_name);
+            System.out.println("guest_name: " +guest_name);
             result = preparedStatement.executeUpdate();
             System.out.println(result + " row(s) deleted");
         } catch (SQLException e) {
@@ -109,8 +109,9 @@ public class GuestDetailsDaoImpl implements GuestDetailsDao {
     }
 
     @Override
-    public void readDetails(GuestDetailsDto guestDetailsDto) {
-        System.out.println("----------read-----------");
+    public List<GuestDetailsDto> readDetails() {
+        List<GuestDetailsDto> ar=new ArrayList<>();
+        //System.out.println("----------read-----------");
         try
         {
             Class.forName("com.mysql.cj.jdbc.Driver");
@@ -128,12 +129,14 @@ public class GuestDetailsDaoImpl implements GuestDetailsDao {
             rs= preparedStatement.executeQuery();
             while (rs.next())
             {
-                System.out.println(rs.getString("guest_name"));
-                System.out.println(rs.getLong("aadhaarId"));
-                System.out.println(rs.getString("address"));
-                System.out.println(rs.getString("work"));
-                System.out.println(rs.getInt("days_count"));
-                System.out.println("-----------------------------------");
+                GuestDetailsDto guestDetailsDto=new GuestDetailsDto();
+                guestDetailsDto.setGuest_name(rs.getString("guest_name"));
+                guestDetailsDto.setAadhaarId(rs.getLong("aadhaarId"));
+                guestDetailsDto.setAddress(rs.getString("address"));
+                guestDetailsDto.setWork(rs.getString("work"));
+                guestDetailsDto.setDays_count(rs.getInt("days_count"));
+                ar.add(guestDetailsDto);
+
             }
         }
         catch (SQLException e) {
@@ -157,5 +160,6 @@ public class GuestDetailsDaoImpl implements GuestDetailsDao {
                 }
             }
         }
+        return ar;
     }
 }
