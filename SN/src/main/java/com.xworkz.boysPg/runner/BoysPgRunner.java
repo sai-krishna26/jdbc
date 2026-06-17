@@ -12,15 +12,15 @@ public class BoysPgRunner {
     {
             //insert
         GuestDetailsDao guestDetailsDao=new GuestDetailsDaoImpl();
-//        GuestDetailsDto guestDetailsDto=new GuestDetailsDto();
-//        guestDetailsDto.setGuest_name("bharath");
-//        guestDetailsDto.setAadhaarId(123412349321L);
-//        guestDetailsDto.setAddress("anantapur");
-//        guestDetailsDto.setWork("intern");
-//        guestDetailsDto.setDays_count(120);
-//
-//        boolean check=guestDetailsDao.insertDetails(guestDetailsDto);
-//        System.out.println("data inserted succesfully");
+        GuestDetailsDto guestDetailsDto=new GuestDetailsDto();
+        guestDetailsDto.setGuest_name(null);
+        guestDetailsDto.setAadhaarId();
+        guestDetailsDto.setAddress("anantnagar");
+        guestDetailsDto.setWork("manager");
+        guestDetailsDto.setDays_count(30);
+
+        boolean check=guestDetailsDao.insertDetails(guestDetailsDto);
+        System.out.println("data inserted succesfully");
 
             //update
 //            GuestDetailsDto guestDetailsDto1=new GuestDetailsDto();
@@ -29,11 +29,11 @@ public class BoysPgRunner {
 //            guestDetailsDao.updateDetails(guestDetailsDto1.getDays_count(), guestDetailsDto1.getGuest_name());
 //            System.out.println("data updated successfully");
 
-            //delete
-            GuestDetailsDto guestDetailsDto2=new GuestDetailsDto();
-            guestDetailsDto2.setGuest_name("pratheek");
-            guestDetailsDao.deleteDetails(guestDetailsDto2.getGuest_name());
-            System.out.println("data successfully deleted");
+//            //delete
+//            GuestDetailsDto guestDetailsDto2=new GuestDetailsDto();
+//            guestDetailsDto2.setGuest_name("pratheek");
+//            guestDetailsDao.deleteDetails(guestDetailsDto2.getGuest_name());
+//            System.out.println("data successfully deleted");
 
             //read
 //        System.out.println("----------------read----------------");

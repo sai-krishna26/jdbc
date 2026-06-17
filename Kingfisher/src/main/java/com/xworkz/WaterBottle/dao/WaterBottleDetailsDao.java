@@ -9,4 +9,5 @@ public interface WaterBottleDetailsDao {
     public int updateDetails(String name,Double cost);
     public int deleteDetails(String name);
     public List<WaterBottleDetailsDto> readDetails();
+    public String batchInsert(List<WaterBottleDetailsDto> waterBottleDetailsDtoList);
 }

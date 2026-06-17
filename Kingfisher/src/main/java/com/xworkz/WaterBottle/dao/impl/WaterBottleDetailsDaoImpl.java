@@ -96,8 +96,7 @@ public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
         } catch (ClassNotFoundException e) {
             throw new RuntimeException(e);
         }
-
-        Connection connect = null;
+            Connection connect=null;
         try {
             connect = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Kingfisher_db", "root", "root");
             PreparedStatement preparedStatement = connect.prepareStatement("DELETE FROM water_bottle WHERE name=?");
@@ -105,6 +104,8 @@ public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
             System.out.println("searching to delete!... wait for result!");
             System.out.println("Name = " + name);
             result = preparedStatement.executeUpdate();
+            System.out.println("how many rows deleted?: "+result);
+            System.out.println("rows deleted successfully");
 
         } catch (SQLException e) {
             throw new RuntimeException(e);
@@ -138,6 +139,7 @@ public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
             //preparedStatement.setString(1, waterBottleDetailsDto.getName());
             System.out.println("collecting details!... wait for result!");
             //System.out.println("Name = " + waterBottleDetailsDto.getName());
+            System.out.println("here is the result:");
             set = preparedStatement.executeQuery();
 
             while (set.next()) {
@@ -177,5 +179,40 @@ public class WaterBottleDetailsDaoImpl implements WaterBottleDetailsDao
             }
         }
         return ref;
+    }
+
+    @Override
+    public String batchInsert( List<WaterBottleDetailsDto> waterBottleDetailsDtoList) {
+        System.out.println("---------------insert batch---------------");
+        String isInsert=null;
+        Connection connection=null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+           connection= DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Kingfisher_db", "root", "root");
+            PreparedStatement prepareStatement = connection.prepareStatement("insert into water_bottle(name,size,cost,validity,is_certified) values(?,?,?,?,?)");
+                    for(WaterBottleDetailsDto ref: waterBottleDetailsDtoList)
+                    {
+                        prepareStatement.setString(1, ref.getName());
+                        prepareStatement.setFloat(2,ref.getSize());
+                        prepareStatement.setDouble(3, ref.getCost());
+                        prepareStatement.setString(4, ref.getValidity());
+                        prepareStatement.setBoolean(5, ref.isCertified());
+                        prepareStatement.addBatch();
+                    }
+                    isInsert="inserted";
+                    prepareStatement.executeBatch();
+            System.out.println("isInserted?: " +isInsert);
+            System.out.println("details are successfully inserted");
+        } catch (SQLException | ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } finally {
+            if (Objects.nonNull(connection))
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+        }
+        return null;
     }
 }
