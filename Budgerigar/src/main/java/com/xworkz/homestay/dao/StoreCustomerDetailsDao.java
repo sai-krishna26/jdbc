@@ -9,4 +9,5 @@ public interface StoreCustomerDetailsDao{
     public int update(String name, int group_count);
     public int delete(int age);
     public List<StoreCustomerDetailsDto> read();
+    public String batchInsert(List<StoreCustomerDetailsDto> storeCustomerDetailsDtos);
 }

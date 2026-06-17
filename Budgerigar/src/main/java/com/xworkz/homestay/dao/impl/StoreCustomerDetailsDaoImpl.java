@@ -6,6 +6,7 @@ import com.xworkz.homestay.dto.StoreCustomerDetailsDto;
 import javax.imageio.plugins.jpeg.JPEGImageReadParam;
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -130,7 +131,7 @@ public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
         {
             connection = DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Budgerigar_db", "root", "root");
             PreparedStatement preparedStatement = connection.prepareStatement("select * from homes_info");
-//            preparedStatement.setString(1, name);
+            //preparedStatement.setString(1, name);
             set = preparedStatement.executeQuery();
             while (set.next())
             {
@@ -165,5 +166,46 @@ public class StoreCustomerDetailsDaoImpl implements StoreCustomerDetailsDao {
             }
         }
         return ref;
+    }
+
+    @Override
+    public String batchInsert(List<StoreCustomerDetailsDto> storeCustomerDetailsDtoList) {
+        System.out.println("-----------Insert-Batch--------------");
+
+        Connection connection=null;
+        String isInserted;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/Budgerigar_db", "root", "root");
+            PreparedStatement preparedStatement=connection.prepareStatement("insert into homes_info values(?,?,?,?,?)");
+            for(StoreCustomerDetailsDto dto: storeCustomerDetailsDtoList)
+            {
+                preparedStatement.setString(1, dto.getName());
+                preparedStatement.setString(2, dto.getGender());
+                preparedStatement.setInt(3, dto.getAge());
+                preparedStatement.setInt(4, dto.getGroup_count());
+                preparedStatement.setDate(5, Date.valueOf(dto.getDate()));
+                preparedStatement.addBatch();
+            }
+            isInserted=null;
+            preparedStatement.executeBatch();
+            System.out.println("isInserted?: " +isInserted);
+            System.out.println("details are successfully inserted");
+
+
+        }   catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+        finally {
+            if (Objects.nonNull(connection))
+            {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return "";
     }
 }
