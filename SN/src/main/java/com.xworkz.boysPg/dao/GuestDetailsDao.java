@@ -9,4 +9,5 @@ public interface GuestDetailsDao {
     public int updateDetails(int days_count,String guest_name);
     public int deleteDetails(String guest_name);
     public List<GuestDetailsDto> readDetails();
+    public String batchInsert(List<GuestDetailsDto> guestDetailsDtoList);
 }

@@ -1,5 +1,6 @@
 package com.xworkz.boysPg.service.impl;
 
+import com.sun.deploy.security.SelectableSecurityManager;
 import com.xworkz.boysPg.dao.GuestDetailsDao;
 import com.xworkz.boysPg.dto.GuestDetailsDto;
 import com.xworkz.boysPg.service.GuestDetailsService;
@@ -65,4 +66,35 @@ public class GuestDetailsServiceImpl implements GuestDetailsService {
         System.err.println("read:guestDetailsDao should not be null");
         return Collections.emptyList();
     }
+
+    @Override
+    public String validateBatchInsert(List<GuestDetailsDto> guestDetailsDtoList) {
+        if(Objects.isNull(guestDetailsDao))
+        {
+            System.err.println("reference should not be null");
+            return "Dao reference is null";
+        }
+        if(Objects.isNull(guestDetailsDtoList) ||guestDetailsDtoList.isEmpty())
+        {
+            System.err.println("list should not be null and empty");
+            return "list should not be empty and null";
+        }
+
+        for (GuestDetailsDto dto:guestDetailsDtoList)
+        {
+            if (Objects.isNull(dto)) {
+                System.out.println("reference should be non null");
+                return "Dto is value is null";
+            }
+            if (dto.getGuest_name() == null || dto.getAadhaarId() < 100000000000L || dto.getAadhaarId() > 999999999999L || dto.getAddress() == null
+                    || dto.getWork() == null || dto.getDays_count() < 1)
+            {
+                System.out.println("invalid data: " + dto);
+                return "invalid data"+dto;
+            }
+        }
+        guestDetailsDao.batchInsert(guestDetailsDtoList);
+        return "done";
+    }
+
 }

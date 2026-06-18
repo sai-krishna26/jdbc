@@ -5,6 +5,7 @@ import com.xworkz.boysPg.dto.GuestDetailsDto;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -161,5 +162,32 @@ public class GuestDetailsDaoImpl implements GuestDetailsDao {
             }
         }
         return ar;
+    }
+
+    @Override
+    public String batchInsert(List<GuestDetailsDto> guestDetailsDtoList) {
+        Connection connection=null;
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            connection=DriverManager.getConnection("jdbc:mysql://127.0.0.1:3306/snboys_db","root","root");
+            PreparedStatement preparedStatement=connection.prepareStatement("insert into guest_info values(?,?,?,?,?)");
+            for (GuestDetailsDto dto:guestDetailsDtoList)
+            {
+                preparedStatement.setString(1,dto.getGuest_name());
+                preparedStatement.setLong(2,dto.getAadhaarId());
+                preparedStatement.setString(3,dto.getAddress());
+                preparedStatement.setString(4, dto.getWork());
+                preparedStatement.setInt(5,dto.getDays_count());
+
+                preparedStatement.addBatch();
+            }
+            int[] values=preparedStatement.executeBatch();
+            System.out.println("batch inserted: "+ Arrays.toString(values));
+            System.out.println("batch details are inserted successfully");
+        } catch (ClassNotFoundException | SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+        return "";
     }
 }
