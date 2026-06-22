@@ -13,7 +13,7 @@ public class SoftwareRunner {
         SoftwareService softwareService=new SoftwareServiceImpl();
         String path="D:/jdbc/excelToSql/src/main/resources/sws_sheet.xlsx";
         List<SoftwareDto> list= ExcelReaderUtil.readExcel(path);
-        String result=softwareService.ValidateBatchInsert(list);
+        String result=softwareService.validateBatchInsert(list);
         System.out.println("result: "+result);
     }
 }

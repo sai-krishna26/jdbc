@@ -11,7 +11,7 @@ import java.util.Objects;
 public class SoftwareServiceImpl implements SoftwareService {
     SoftwareDao softwareDao=new SoftwareDaoImpl();
     @Override
-    public String ValidateBatchInsert(List<SoftwareDto> list) {
+    public String validateBatchInsert(List<SoftwareDto> list) {
 
         if(Objects.isNull(softwareDao))
         {
